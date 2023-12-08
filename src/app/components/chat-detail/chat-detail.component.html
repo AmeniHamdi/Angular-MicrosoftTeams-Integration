@@ -1,0 +1,80 @@
+<!-- <h2>Chat Detail: {{ chat?.topic }}</h2>
+<div class="chat-container">
+    <div class="chat-header">
+        <h2 class="chat-title">Chat Title</h2>
+    </div>
+    <div class="chat-messages">
+        <div class="chat-message user-message" *ngFor="let message of messages">
+            <div class="message-bubble">
+                <p class="message-text" [innerHTML]="message.body.content"></p>
+                <span class="message-timestamp">10:00 am</span>
+            </div>
+        </div>
+    </div>
+    <form [formGroup]="messageForm" class="chat-input">
+        <input type="text" formControlName="messageBody" placeholder="Type your message here" />
+        <button class="send-button" (click)="sendMessage()">Send</button>
+    </form>
+</div> -->
+
+<div class="container">
+
+    <!-- msg-header section starts -->
+    <div class="msg-header">
+        <div class="container1">
+
+            <img src="/assets/user.png" class="msgimg">
+            <div class="active">
+                <p>{{ chat?.topic }}</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- msg-header section ends -->
+
+    <!-- Chat inbox  -->
+    <div class="chat-page">
+        <div class="msg-inbox">
+            <div class="chats">
+
+                <!-- Message container -->
+                <div class="msg-page">
+
+                    <!-- Incoming messages -->
+
+                    <ng-container *ngFor="let message of messages$ | async; let i=index">
+                        <div [ngClass]="genericUserId==message.from.user.id?'outgoing-chats':'received-chats'"
+                            *ngIf="message.messageType == 'message'">
+                            <div
+                                [ngClass]="genericUserId==message.from.user.id?'outgoing-chats-img':'received-chats-img'">
+                                <img src="/assets/user.png">
+                            </div>
+                            <div [ngClass]="genericUserId==message.from.user.id?'outgoing-msg':'received-msg'">
+                                <div
+                                    [ngClass]="genericUserId==message.from.user.id?'outgoing-msg-inbox':'received-msg-inbox'">
+                                    <p [innerHTML]="message.body.content">
+                                    </p>
+                                    <span class="time">{{message.lastModifiedDateTime | date: 'medium'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <!-- msg-bottom section -->
+
+
+            <div class="msg-bottom">
+
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Write message...">
+
+                    <span class="input-group-text send-icon "><i class="bi bi-send "></i>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

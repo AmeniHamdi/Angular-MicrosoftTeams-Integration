@@ -1,0 +1,11 @@
+<div class="chat-list">
+    <div class="chat-list-item" *ngFor="let chat of chats" (click)="selectChat(chat)">
+        <div class="chat-avatar">
+            <!-- <img src="{{ chat.avatarUrl }}" alt="{{ chat.topic }}" /> -->
+        </div>
+        <div class="chat-details">
+            <h3 class="chat-name">{{ chat.topic }}</h3>
+            <p class="chat-last-message">{{ chat.viewpoint.lastMessageReadDateTime | date:'mediumTime'}}</p>
+        </div>
+    </div>
+</div>

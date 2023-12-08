@@ -1,0 +1,70 @@
+<div class="container clearfix">
+    <div class="people-list" id="people-list">
+        <div class="search">
+            <input type="text" placeholder="search" />
+            <i class="fa fa-search"></i>
+        </div>
+        <ul class="list">
+            <li class="clearfix" *ngFor="let chat of chatsList" (click)="onChatClick(chat.id)">
+                <img src="./assets/user.png" alt="avatar" />
+                <div class="about">
+                    <div class="name">{{ chat.topic }}</div>
+                    <div class="status">
+                        <i class="fa fa-circle online"></i> {{ chat.viewpoint.lastMessageReadDateTime |
+                        date:'mediumTime'}}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="nochat" *ngIf="!chat">
+        <h2>Select Chat To See Messages !!</h2>
+    </div>
+
+    <div class="chat" *ngIf="chat">
+        <div class="chat-header clearfix">
+            <img src="./assets/user.png" alt="avatar" />
+
+            <div class="chat-about">
+                <div class="chat-with">{{ chat?.topic }}</div>
+                <div class="chat-num-messages">Last Updated - {{ chat?.lastUpdatedDateTime | date: 'medium'}}</div>
+            </div>
+            <i class="fa fa-star"></i>
+        </div> <!-- end chat-header -->
+
+        <div class="chat-history">
+            <ul>
+                <ng-container *ngFor="let message of messages$ | async">
+                    <li *ngIf="message.messageType == 'message'"
+                        [ngClass]="genericUserId==message?.from?.user.id?'clearfix':''">
+
+                        <div
+                            [ngClass]="genericUserId==message?.from?.user.id?'message-data align-right':'message-data'">
+                            <span class="message-data-time">{{message.lastModifiedDateTime | date: 'medium'}}</span>
+                            <span class="message-data-name"><i class="fa fa-circle me"></i>&nbsp; &nbsp;
+                                {{message?.from?.user.displayName}}</span>
+
+                        </div>
+                        <div
+                            [ngClass]="genericUserId==message?.from?.user.id?'message other-message float-right':'message my-message'">
+                            <p [innerHTML]="message.body.content">
+                            </p>
+                        </div>
+                    </li>
+                </ng-container>
+            </ul>
+
+        </div> <!-- end chat-history -->
+
+        <form [formGroup]="messageForm" class="chat-message clearfix">
+            <textarea formControlName="messageBody" name="message-to-send" id="message-to-send"
+                placeholder="Type your message" rows="3"></textarea>
+
+            <button class="button-30" (click)="sendMessage()">Send</button>
+
+        </form> <!-- end chat-message -->
+
+    </div> <!-- end chat -->
+
+</div> <!-- end container -->
